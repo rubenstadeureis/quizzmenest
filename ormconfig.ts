@@ -4,17 +4,16 @@ const config: TypeOrmModuleOptions[] = [
   {
     name: 'default',
     type: 'mariadb',
-    host: 'localhost',
-    port: 49153,
+    host: 'mariadb',
+    port: 3306,
     username: 'root',
     password: 'mariadbpw',
-    database: 'crud',
+    database: 'quizzme',
     synchronize: true,
     autoLoadEntities: false,
     logging: false,
     entities: [__dirname + '/src/**/*.entity.{js,ts}'],
     migrations: [__dirname + '/src/infra/typeorm/migrations/*.ts'],
-
     timezone: '+03:00',
   },
 ];
