@@ -1,76 +1,61 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { UserEntity } from './entities/user.entity';
+import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectRepository(UserEntity) private user: Repository<UserEntity>,
-  ) {}
-  private users: UserEntity[] = [];
+  constructor(private userRepository: UsersRepository) {}
 
-  create(createUserDto: CreateUserDto) {
-    try {
-      const currentId = this.users[this.users.length - 1]?.id || 0;
-
-      const id = currentId + 1;
-
-      const user = {
-        id,
-        ...createUserDto,
-      };
-      this.users.push(user);
-
-      return user;
-    } catch (error) {
-      console.log('erro na criação de usuário', error);
+  async create(createUserDto: CreateUserDto) {
+    const hasEmail = await this.userRepository.hasEmail(createUserDto.email);
+    if (hasEmail) {
+      throw new BadRequestException('Email already exists');
     }
+    return this.userRepository.create(createUserDto);
   }
 
-  findAll() {
-    try {
-      return this.users;
-    } catch (error) {
-      console.log('erro na lista de usuários', error);
-    }
-  }
+  // TO-DO: Refact using TypeOrm.
+  // findAll() {
+  //   try {
+  //     return this.users;
+  //   } catch (error) {
+  //     console.log('erro na lista de usuários', error);
+  //   }
+  // }
 
-  findOne(id: number) {
-    try {
-      const IdUsuario = this.users.findIndex((user) => user.id === id);
-      return this.users[IdUsuario];
-    } catch (error) {
-      console.log('error inesperado ao buscar um usuário', error);
-    }
-  }
+  // findOne(id: number) {
+  //   try {
+  //     const IdUsuario = this.users.findIndex((user) => user.id === id);
+  //     return this.users[IdUsuario];
+  //   } catch (error) {
+  //     console.log('error inesperado ao buscar um usuário', error);
+  //   }
+  // }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    try {
-      const oldUser = this.findOne(id);
+  // update(id: number, updateUserDto: UpdateUserDto) {
+  //   try {
+  //     const oldUser = this.findOne(id);
 
-      const newUser = {
-        ...oldUser,
-        ...updateUserDto,
-      };
-      const IdUsuario = this.users.findIndex((user) => user.id === id);
-      this.users[IdUsuario] = newUser;
+  //     const newUser = {
+  //       ...oldUser,
+  //       ...updateUserDto,
+  //     };
+  //     const IdUsuario = this.users.findIndex((user) => user.id === id);
+  //     this.users[IdUsuario] = newUser;
 
-      return newUser;
-    } catch (error) {
-      console.log('erro ao fazer o update', error);
-    }
-  }
+  //     return newUser;
+  //   } catch (error) {
+  //     console.log('erro ao fazer o update', error);
+  //   }
+  // }
 
-  remove(id: number) {
-    try {
-      const IdUsuario = this.users.findIndex((user) => user.id === id);
+  // remove(id: number) {
+  //   try {
+  //     const IdUsuario = this.users.findIndex((user) => user.id === id);
 
-      this.users.splice(IdUsuario, 1);
-    } catch (error) {
-      console.log('erro ao deleter usuário', error);
-    }
-  }
+  //     this.users.splice(IdUsuario, 1);
+  //   } catch (error) {
+  //     console.log('erro ao deleter usuário', error);
+  //   }
+  // }
 }
