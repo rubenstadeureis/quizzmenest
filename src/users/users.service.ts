@@ -14,6 +14,18 @@ export class UsersService {
     return this.userRepository.create(createUserDto);
   }
 
+  async findall(): Promise<UsersRepository> {
+    return this.userRepository;
+  }
+
+  async findOne(id: number) {
+    const userById = this.userRepository.findOneById(id);
+    if (!userById) {
+      throw new BadRequestException('Erro ao encontrar usuário pelo ID');
+    }
+    return userById;
+  }
+
   // TO-DO: Refact using TypeOrm.
   // findAll() {
   //   try {

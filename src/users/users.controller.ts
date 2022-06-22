@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 
@@ -11,10 +11,10 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
   // TO-DO: Refact with TypeOrm.
-  // @Get('/findall')
-  // findAll() {
-  //   return this.usersService.findAll();
-  // }
+  @Get('/:id')
+  findById(@Param('id') id: number) {
+    return this.usersService.findOne(id);
+  }
 
   // @Get(':id')
   // findOne(@Param('id') id: number) {

@@ -37,4 +37,14 @@ export class UsersRepository {
       );
     }
   }
+  async findOneById(id: number): Promise<UserEntity> {
+    try {
+      return await this.userRepository.findOne({ where: { id } });
+    } catch (error) {
+      console.log('Erro ao encontrar usuário pelo ID', error);
+      throw new InternalServerErrorException(
+        'Erro ao encontrar usuário pelo ID',
+      );
+    }
+  }
 }
