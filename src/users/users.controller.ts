@@ -1,5 +1,14 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -10,24 +19,27 @@ export class UsersController {
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
-  // TO-DO: Refact with TypeOrm.
-  // @Get('/findall')
-  // findAll() {
-  //   return this.usersService.findAll();
-  // }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: number) {
-  //   return this.usersService.findOne(id);
-  // }
+  @Patch('/update/:id')
+  updateUserById(
+    @Body() updateUserDto: UpdateUserDto,
+    @Param('id') id: number,
+  ) {
+    return this.usersService.updateUserById(id, updateUserDto);
+  }
 
-  // @Patch(':id')
-  // update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.usersService.update(id, updateUserDto);
-  // }
+  @Delete('/delete/:id')
+  deleteUserById(@Param('id') id: number) {
+    return this.usersService.deleteUserById(id);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: number) {
-  //   return this.usersService.remove(id);
-  // }
+  @Get('/get/:id')
+  getUserById(@Param('id') id: number) {
+    return this.usersService.getUserById(id);
+  }
+
+  @Get('/get-all')
+  getAll() {
+    return this.usersService.findAll();
+  }
 }
