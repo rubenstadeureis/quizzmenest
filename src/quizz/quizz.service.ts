@@ -9,8 +9,10 @@ export class QuizzService {
   constructor(private quizzRepository: QuizzRepository) {}
 
   async create(createUserDto: CreateQuizzDto): Promise<any> {
-    const hasName = await this.quizzRepository.hasName(createUserDto.name);
-    if (hasName) {
+    const findNameByQuizz = await this.quizzRepository.findByName(
+      createUserDto.name,
+    );
+    if (findNameByQuizz) {
       throw new BadRequestException('Name already exists');
     }
     return this.quizzRepository.create(createUserDto);
@@ -23,7 +25,7 @@ export class QuizzService {
     }
     return UserNotFound;
   }
-  // TO-DO: Refact using TypeOrm.
+
   async listQuizz() {
     return this.quizzRepository.listQuizz();
   }

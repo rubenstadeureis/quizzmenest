@@ -1,4 +1,4 @@
-/*import { Test, TestingModule } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 import { QuizzController } from './quizz.controller';
 import { QuizzService } from './quizz.service';
 
@@ -18,4 +18,3 @@ describe('QuizzController', () => {
     expect(controller).toBeDefined();
   });
 });
-*/
