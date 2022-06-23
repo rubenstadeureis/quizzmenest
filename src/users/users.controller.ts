@@ -1,33 +1,40 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Get,
+  Param,
+  Patch,
+  Delete,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
-
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('/create')
-  create(@Body() createUserDto: CreateUserDto) {
+  createUsers(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
-  // TO-DO: Refact with TypeOrm.
-  // @Get('/findall')
-  // findAll() {
-  //   return this.usersService.findAll();
-  // }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: number) {
-  //   return this.usersService.findOne(id);
-  // }
+  @Get('/')
+  findAllUsers() {
+    return this.usersService.listUsers();
+  }
+  @Get('/:id')
+  getOnebyId(@Param('id') id: number) {
+    return this.usersService.getUserbyId(id);
+  }
 
-  // @Patch(':id')
-  // update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.usersService.update(id, updateUserDto);
-  // }
+  @Patch('/update/:id')
+  updateUserById(@Param('id') id: number, @Body() update: UpdateUserDto) {
+    return this.usersService.updateUserById(id, update);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: number) {
-  //   return this.usersService.remove(id);
-  // }
+  @Delete('/delete/:id')
+  deleteUserById(@Param('id') id: number) {
+    return this.usersService.deleteUserById(id);
+  }
 }
