@@ -21,7 +21,7 @@ export class QuizzService {
   async getQuizzbyId(id: number): Promise<QuizzEntity> {
     const UserNotFound = await this.quizzRepository.getQuizzById(id);
     if (!UserNotFound) {
-      throw new BadRequestException('User not exist!');
+      throw new BadRequestException('Quizz not exist!');
     }
     return UserNotFound;
   }
@@ -33,7 +33,7 @@ export class QuizzService {
   async deleteQuizzById(id: number): Promise<boolean> {
     const UserNotFound = this.quizzRepository.deleteQuizzById(id);
     if (!UserNotFound) {
-      throw new BadRequestException('User not exist!');
+      throw new BadRequestException('Quizz not exist!');
     }
     return UserNotFound;
   }
@@ -44,7 +44,7 @@ export class QuizzService {
   ): Promise<QuizzEntity> {
     const findUser = await this.quizzRepository.QuizzExists(id);
     if (!findUser) {
-      throw new BadRequestException('User not exist!');
+      throw new BadRequestException('Quizz not exist!');
     }
     return await this.quizzRepository.updateQuizzById(update, id);
   }
