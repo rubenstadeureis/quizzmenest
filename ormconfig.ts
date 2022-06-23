@@ -2,12 +2,12 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 const config: TypeOrmModuleOptions[] = [
   {
     name: 'default',
-    type: 'mariadb',
-    host: 'mariadb',
-    port: 3306,
+    type: 'mysql',
+    host: 'localhost',
+    port: 55001,
     username: 'root',
     password: 'mariadbpw',
-    database: 'quizzme',
+    database: 'mysql',
     synchronize: true,
     autoLoadEntities: false,
     logging: false,

@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { typeOrmConfigFactory } from './config/typeormConfig.factory';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './quizz/quizz.module';
 
 @Module({
   imports: [
