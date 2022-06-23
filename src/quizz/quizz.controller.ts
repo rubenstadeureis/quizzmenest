@@ -24,9 +24,10 @@ export class QuizzController {
   findAllUsers() {
     return this.quizzService.listQuizz();
   }
+
   @Get('/:id')
-  getOnebyId(@Param('id') id: number) {
-    return this.quizzService.getQuizzbyId(id);
+  getOneById(@Param('id') id: number) {
+    return this.quizzService.getQuizzById(id);
   }
 
   @Patch('/update/:id')

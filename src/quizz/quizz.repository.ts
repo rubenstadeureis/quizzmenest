@@ -1,6 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
+import { CreateQuizzDto } from './dto/create-quizz.dto';
 import { UpdateQuizzDto } from './dto/update-quizz.dto';
 import { QuizzEntity } from './entities/quizz.entity';
 
@@ -10,18 +11,18 @@ export class QuizzRepository {
     @InjectRepository(QuizzEntity)
     private quizzRepository: Repository<QuizzEntity>,
   ) {}
-  q;
-  async create(quizzEntity: QuizzEntity) {
+
+  async create(createQuizzDto: CreateQuizzDto) {
     try {
-      const user = this.quizzRepository.create(quizzEntity);
-      await this.quizzRepository.save(user);
-      return user;
+      const quizz = this.quizzRepository.create(createQuizzDto);
+      await this.quizzRepository.save(quizz);
+      return quizz;
     } catch (error) {
       throw new InternalServerErrorException('Erro na criação do quizz');
     }
   }
 
-  async findByName(name: string): Promise<boolean> {
+  async hasQuizzByName(name: string): Promise<boolean> {
     try {
       const countById = await this.quizzRepository.count({
         where: {
@@ -40,24 +41,25 @@ export class QuizzRepository {
     try {
       return await this.quizzRepository.find();
     } catch (error) {
-      throw new InternalServerErrorException('Erro na busca', error);
+      throw new InternalServerErrorException('Erro ao buscar quizzes', error);
     }
   }
+
   async getQuizzById(id: number): Promise<QuizzEntity> {
     try {
-      const foundOneQuizzById = await this.quizzRepository.findOne({
+      return await this.quizzRepository.findOne({
         where: {
           id,
         },
       });
-      return foundOneQuizzById;
     } catch (error) {
       throw new InternalServerErrorException(
         `Erro ao encontrar o quizz número ${id}`,
       );
     }
   }
-  async QuizzExists(id: number): Promise<boolean> {
+
+  async quizzExists(id: number): Promise<boolean> {
     try {
       const quizzFoundedByQuizz = await this.quizzRepository.count({
         where: {
@@ -69,13 +71,15 @@ export class QuizzRepository {
       throw new InternalServerErrorException('Erro ao verificar o Id do quizz');
     }
   }
+
   async deleteQuizzById(id: number): Promise<boolean> {
     try {
-      return await !!this.quizzRepository.delete(id);
+      return !!(await this.quizzRepository.delete(id));
     } catch (error) {
-      throw new InternalServerErrorException('Erro no servidor');
+      throw new InternalServerErrorException('Erro ao deletar quizz');
     }
   }
+
   async updateQuizzById(updateQuizz: UpdateQuizzDto, id: number) {
     try {
       const foundedOneQuizzById = await this.quizzRepository.findOne({
@@ -89,6 +93,22 @@ export class QuizzRepository {
       });
     } catch (error) {
       throw new InternalServerErrorException('Erro ao atualizar o quizz');
+    }
+  }
+
+  async nameIsInUse(name: string, id: number): Promise<boolean> {
+    try {
+      const countById = await this.quizzRepository.count({
+        where: {
+          name,
+          id: Not(id),
+        },
+      });
+      return countById > 0;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Erro ao verificar disponibilidade do nome',
+      );
     }
   }
 }

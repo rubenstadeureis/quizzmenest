@@ -8,43 +8,52 @@ import { QuizzRepository } from './quizz.repository';
 export class QuizzService {
   constructor(private quizzRepository: QuizzRepository) {}
 
-  async create(createUserDto: CreateQuizzDto): Promise<any> {
-    const findNameByQuizz = await this.quizzRepository.findByName(
-      createUserDto.name,
+  async create(createQuizzDto: CreateQuizzDto): Promise<QuizzEntity> {
+    const findNameByQuizz = await this.quizzRepository.hasQuizzByName(
+      createQuizzDto.name,
     );
     if (findNameByQuizz) {
       throw new BadRequestException('Name already exists');
     }
-    return this.quizzRepository.create(createUserDto);
+    return this.quizzRepository.create(createQuizzDto);
   }
 
-  async getQuizzbyId(id: number): Promise<QuizzEntity> {
-    const UserNotFound = await this.quizzRepository.getQuizzById(id);
-    if (!UserNotFound) {
+  async getQuizzById(id: number): Promise<QuizzEntity> {
+    const quizz = await this.quizzRepository.getQuizzById(id);
+    if (!quizz) {
       throw new BadRequestException('Quizz not exist!');
     }
-    return UserNotFound;
+    return quizz;
   }
 
-  async listQuizz() {
+  async listQuizz(): Promise<QuizzEntity[]> {
     return this.quizzRepository.listQuizz();
   }
 
   async deleteQuizzById(id: number): Promise<boolean> {
-    const UserNotFound = this.quizzRepository.deleteQuizzById(id);
-    if (!UserNotFound) {
+    const quizzExists = this.quizzRepository.quizzExists(id);
+    if (!quizzExists) {
       throw new BadRequestException('Quizz not exist!');
     }
-    return UserNotFound;
+    return this.quizzRepository.deleteQuizzById(id);
   }
 
   async updateQuizzById(
     id: number,
     update: UpdateQuizzDto,
   ): Promise<QuizzEntity> {
-    const findUser = await this.quizzRepository.QuizzExists(id);
-    if (!findUser) {
+    const findQuizz = await this.quizzRepository.quizzExists(id);
+    if (!findQuizz) {
       throw new BadRequestException('Quizz not exist!');
+    }
+    if (update.name) {
+      const nameIsInUse = await this.quizzRepository.nameIsInUse(
+        update.name,
+        id,
+      );
+      if (nameIsInUse) {
+        throw new BadRequestException('Name already in use');
+      }
     }
     return await this.quizzRepository.updateQuizzById(update, id);
   }
