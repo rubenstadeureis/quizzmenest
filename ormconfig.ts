@@ -9,7 +9,7 @@ const config: TypeOrmModuleOptions[] = [
     password: 'mariadbpw',
     database: 'quizzme',
     synchronize: true,
-    autoLoadEntities: false,
+    autoLoadEntities: true,
     logging: false,
     entities: [__dirname + '/src/**/*.entity.{js,ts}'],
     migrations: [__dirname + '/src/infra/typeorm/migrations/*.ts'],
