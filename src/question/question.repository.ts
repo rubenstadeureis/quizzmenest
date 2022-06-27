@@ -12,7 +12,7 @@ export class questionRepository {
   ) {}
   async create(createQuestionDto: CreateQuestionDto) {
     try {
-      const question = this.question.create(createQuestionDto[5]);
+      const question = this.question.create(createQuestionDto);
       await this.question.save(question);
       return question;
     } catch (error) {

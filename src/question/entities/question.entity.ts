@@ -1,14 +1,17 @@
 import { QuizzEntity } from 'src/quizz/entities/quizz.entity';
-import { ManyToOne, PrimaryGeneratedColumn, Entity } from 'typeorm';
+import { OneToMany, PrimaryGeneratedColumn, Entity, Column } from 'typeorm';
 
 @Entity()
 export class Question {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @ManyToOne(() => QuizzEntity, (quizz) => quizz.question, { eager: true })
-  quizz: QuizzEntity;
+  @Column()
+  questUser: string;
 
-  @ManyToOne(() => QuizzEntity, (quizz) => quizz.answer, { eager: true })
-  answer: QuizzEntity;
+  @Column()
+  answerUser: string;
+
+  @OneToMany(() => QuizzEntity, (question) => question.quizz)
+  question: QuizzEntity[];
 }
