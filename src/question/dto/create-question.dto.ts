@@ -1,11 +1,9 @@
-import { IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
 export class CreateQuestionDto {
   @IsString()
-  questUser: string;
+  question: string;
 
-  @IsString()
-  answerUser: string;
-
-  quizz: [];
+  @IsNumber()
+  quizzId: number;
 }

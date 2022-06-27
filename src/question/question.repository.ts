@@ -2,27 +2,32 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateQuestionDto } from './dto/create-question.dto';
-import { Question } from './entities/question.entity';
+import { QuestionEntity } from './entities/question.entity';
 
 @Injectable()
-export class questionRepository {
+export class QuestionRepository {
   constructor(
-    @InjectRepository(Question)
-    private question: Repository<Question>,
+    @InjectRepository(QuestionEntity)
+    private questionRepository: Repository<QuestionEntity>,
   ) {}
   async create(createQuestionDto: CreateQuestionDto) {
     try {
-      const question = this.question.create(createQuestionDto);
-      await this.question.save(question);
+      const question = this.questionRepository.create({
+        ...createQuestionDto,
+        quizz: {
+          id: createQuestionDto.quizzId,
+        },
+      });
+      await this.questionRepository.save(question);
       return question;
     } catch (error) {
       console.log('Error creating the question!', error);
       throw new InternalServerErrorException('Error creating the question!');
     }
   }
-  async listQuestions(): Promise<Question[]> {
+  async listQuestions(): Promise<QuestionEntity[]> {
     try {
-      return await this.question.find();
+      return await this.questionRepository.find();
     } catch (error) {
       throw new InternalServerErrorException('Error finding questions', error);
     }
