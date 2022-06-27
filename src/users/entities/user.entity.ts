@@ -21,7 +21,6 @@ export class UserEntity {
   async beforeInsert(): Promise<void> {
     this.password = await bcrypt.hash(this.password, 8);
   }
-
   @BeforeUpdate()
   async beforeUpdate(): Promise<void> {
     this.password = await bcrypt.hash(this.password, 8);

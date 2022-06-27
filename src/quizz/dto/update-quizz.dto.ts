@@ -11,4 +11,6 @@ export class UpdateQuizzDto {
 
   @IsOptional()
   quantityPlayed?: number;
+
+  question?: [];
 }
