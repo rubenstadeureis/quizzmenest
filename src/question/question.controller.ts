@@ -10,9 +10,4 @@ export class QuestionController {
   create(@Body() createQuestionDto: CreateQuestionDto) {
     return this.questionService.create(createQuestionDto);
   }
-
-  @Get('/')
-  getAll() {
-    return this.questionService.listQuestions();
-  }
 }

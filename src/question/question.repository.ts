@@ -10,6 +10,7 @@ export class QuestionRepository {
     @InjectRepository(QuestionEntity)
     private questionRepository: Repository<QuestionEntity>,
   ) {}
+
   async create(createQuestionDto: CreateQuestionDto) {
     try {
       const question = this.questionRepository.create({
@@ -30,6 +31,7 @@ export class QuestionRepository {
       return await this.questionRepository.find();
     } catch (error) {
       throw new InternalServerErrorException('Error finding questions', error);
+
     }
   }
 }
