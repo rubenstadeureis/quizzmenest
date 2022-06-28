@@ -8,11 +8,9 @@ import {
   OneToMany,
 } from 'typeorm';
 
-
 @Entity()
 export class QuestionEntity {
   @PrimaryGeneratedColumn()
-
   id?: number;
 
   @Column()
@@ -21,7 +19,6 @@ export class QuestionEntity {
   @ManyToOne(() => QuizzEntity, (quizz) => quizz.questions)
   quizz: QuizzEntity;
 
-
   @OneToMany(() => OptionEntity, (option) => option.option)
-  option: OptionEntity;
+  option: OptionEntity[];
 }

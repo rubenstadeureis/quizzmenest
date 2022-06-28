@@ -19,6 +19,9 @@ export class OptionService {
     }
     return this.optionRepository.create(createOptionDto);
   }
+  async listOption() {
+    return this.optionRepository.listOptions();
+  }
 
   // findAll() {
   //   return `This action returns all option`;

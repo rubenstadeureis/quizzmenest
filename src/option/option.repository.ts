@@ -25,4 +25,11 @@ export class OptionRepository {
       throw new InternalServerErrorException('Error creating the question!');
     }
   }
+  async listOptions(): Promise<OptionEntity[]> {
+    try {
+      return await this.optionRepository.find();
+    } catch (error) {
+      throw new InternalServerErrorException('Error finding options', error);
+    }
+  }
 }

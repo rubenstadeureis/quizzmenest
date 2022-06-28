@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { OptionService } from './option.service';
 import { CreateOptionDto } from './dto/create-option.dto';
 // import { UpdateOptionDto } from './dto/update-option.dto';
@@ -12,10 +12,10 @@ export class OptionController {
     return this.optionService.create(createOptionDto);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.optionService.findAll();
-  // }
+  @Get()
+  findAllOption() {
+    return this.optionService.listOption();
+  }
 
   // @Get(':id')
   // findOne(@Param('id') id: string) {
