@@ -6,6 +6,7 @@ import { typeOrmConfigFactory } from './config/typeormConfig.factory';
 import { UsersModule } from './users/users.module';
 import { QuizzModule } from './quizz/quizz.module';
 import { QuestionModule } from './question/question.module';
+import { OptionModule } from './option/option.module';
 @Module({
   imports: [
     UsersModule,
@@ -14,6 +15,7 @@ import { QuestionModule } from './question/question.module';
     }),
     QuizzModule,
     QuestionModule,
+    OptionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
