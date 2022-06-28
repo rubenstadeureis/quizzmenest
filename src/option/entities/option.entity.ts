@@ -12,6 +12,6 @@ export class OptionEntity {
   @Column()
   isCorrect: boolean;
 
-  @ManyToOne(() => QuestionEntity, (question) => question.question)
+  @ManyToOne(() => QuestionEntity, (question) => question.options)
   question: QuestionEntity;
 }

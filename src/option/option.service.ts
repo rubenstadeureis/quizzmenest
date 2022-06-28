@@ -11,11 +11,11 @@ export class OptionService {
     private questionService: QuestionService,
   ) {}
   async create(createOptionDto: CreateOptionDto) {
-    const optionExists = await this.questionService.questionExists(
+    const questionExists = await this.questionService.questionExists(
       createOptionDto.questionId,
     );
-    if (!optionExists) {
-      throw new BadRequestException('Option not exist!');
+    if (!questionExists) {
+      throw new BadRequestException('Question not exist!');
     }
     return this.optionRepository.create(createOptionDto);
   }

@@ -68,6 +68,7 @@ export class QuizzRepository {
       });
       return quizzFoundedByQuizz > 0;
     } catch (error) {
+      console.log(error);
       throw new InternalServerErrorException('Erro ao verificar o Id do quizz');
     }
   }

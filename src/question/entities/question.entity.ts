@@ -19,6 +19,9 @@ export class QuestionEntity {
   @ManyToOne(() => QuizzEntity, (quizz) => quizz.questions)
   quizz: QuizzEntity;
 
-  @OneToMany(() => OptionEntity, (option) => option.option)
-  option: OptionEntity[];
+  @OneToMany(() => OptionEntity, (option) => option.question, {
+    eager: true,
+    cascade: true,
+  })
+  options: OptionEntity[];
 }
