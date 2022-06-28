@@ -5,7 +5,6 @@ import { QuestionRepository } from './question.repository';
 
 @Injectable()
 export class QuestionService {
-
   constructor(
     private questionRepository: QuestionRepository,
     private quizzService: QuizzService,
@@ -23,6 +22,9 @@ export class QuestionService {
 
   listQuestions() {
     return this.questionRepository.listQuestions();
+  }
 
+  async questionExists(id: number): Promise<boolean> {
+    return this.questionRepository.questionExists(id);
   }
 }
