@@ -1,4 +1,4 @@
-import { IsString, IsNumber } from 'class-validator';
+import { IsString, IsNumber, IsObject } from 'class-validator';
 
 export class CreateQuizzDto {
   @IsString()
@@ -9,4 +9,7 @@ export class CreateQuizzDto {
 
   @IsNumber()
   quantityPlayed: number;
+
+  @IsObject()
+  question: [];
 }

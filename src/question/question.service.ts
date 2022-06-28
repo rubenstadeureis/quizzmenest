@@ -1,15 +1,24 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
+import { QuestionEntity } from './entities/question.entity';
+import { QuestionRepository } from './question.repository';
 
 @Injectable()
 export class QuestionService {
-  create(createQuestionDto: CreateQuestionDto) {
-    return 'This action adds a new question';
+  constructor(private questionRepository: QuestionRepository) {}
+
+  async create(createQuestionDto: CreateQuestionDto): Promise<QuestionEntity> {
+    const findQuizzExistsByQuestion =
+      await this.questionRepository.hasQuestionName(createQuestionDto.id);
+    if (findQuizzExistsByQuestion) {
+      throw new BadRequestException('Question Already exist');
+    }
+    return this.questionRepository.createQuestion(createQuestionDto);
   }
 
   findAll() {
-    return `This action returns all question`;
+    return this.questionRepository.findAllQuestion();
   }
 
   findOne(id: number) {
