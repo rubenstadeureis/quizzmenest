@@ -1,4 +1,5 @@
-import { IsString, IsNumber, IsObject } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsNumber, IsString, ValidateNested } from 'class-validator';
 
 export class CreateQuizzDto {
   @IsString()
@@ -10,6 +11,14 @@ export class CreateQuizzDto {
   @IsNumber()
   quantityPlayed: number;
 
-  @IsObject()
-  question: [];
+
+  @ValidateNested({ always: true, each: true })
+  @Type(() => QuestionsDto)
+  questions?: QuestionsDto[];
+}
+
+class QuestionsDto {
+  @IsString()
+  question: string;
+
 }

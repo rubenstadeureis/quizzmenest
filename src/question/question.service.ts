@@ -1,35 +1,28 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { QuizzService } from 'src/quizz/quizz.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
-import { UpdateQuestionDto } from './dto/update-question.dto';
-import { QuestionEntity } from './entities/question.entity';
 import { QuestionRepository } from './question.repository';
 
 @Injectable()
 export class QuestionService {
-  constructor(private questionRepository: QuestionRepository) {}
 
-  async create(createQuestionDto: CreateQuestionDto): Promise<QuestionEntity> {
-    const findQuizzExistsByQuestion =
-      await this.questionRepository.hasQuestionName(createQuestionDto.id);
-    if (findQuizzExistsByQuestion) {
-      throw new BadRequestException('Question Already exist');
+  constructor(
+    private questionRepository: QuestionRepository,
+    private quizzService: QuizzService,
+  ) {}
+
+  async create(createQuestionDto: CreateQuestionDto) {
+    const quizzExists = await this.quizzService.quizzExists(
+      createQuestionDto.quizzId,
+    );
+    if (!quizzExists) {
+      throw new BadRequestException('Quizz not exist!');
     }
-    return this.questionRepository.createQuestion(createQuestionDto);
+    return this.questionRepository.create(createQuestionDto);
   }
 
-  findAll() {
-    return this.questionRepository.findAllQuestion();
-  }
+  listQuestions() {
+    return this.questionRepository.listQuestions();
 
-  findOne(id: number) {
-    return `This action returns a #${id} question`;
-  }
-
-  update(id: number, updateQuestionDto: UpdateQuestionDto) {
-    return `This action updates a #${id} question`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} question`;
   }
 }

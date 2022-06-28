@@ -1,9 +1,9 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsObject } from 'class-validator';
 
 export class UpdateQuestionDto {
-  @IsNumber()
-  id: number;
+  @IsObject()
+  quizz?: [];
+  @IsObject()
+  answer?: [];
 
-  @IsString()
-  question: string;
 }

@@ -11,36 +11,27 @@ export class QuestionRepository {
     private questionRepository: Repository<QuestionEntity>,
   ) {}
 
-  async createQuestion(
-    createQuestionDto: CreateQuestionDto,
-  ): Promise<QuestionEntity> {
+  async create(createQuestionDto: CreateQuestionDto) {
     try {
-      const question = this.questionRepository.create(createQuestionDto);
+      const question = this.questionRepository.create({
+        ...createQuestionDto,
+        quizz: {
+          id: createQuestionDto.quizzId,
+        },
+      });
       await this.questionRepository.save(question);
       return question;
     } catch (error) {
-      throw new InternalServerErrorException('Erro ao criar Questão ');
+      console.log('Error creating the question!', error);
+      throw new InternalServerErrorException('Error creating the question!');
     }
   }
-
-  async hasQuestionName(id: number): Promise<boolean> {
-    try {
-      const verifyQuestionExists = await this.questionRepository.count({
-        where: { id },
-      });
-      return verifyQuestionExists > 0;
-    } catch (error) {
-      throw new InternalServerErrorException('Erro, Questão já existente');
-    }
-  }
-
-  async findAllQuestion(): Promise<QuestionEntity[]> {
+  async listQuestions(): Promise<QuestionEntity[]> {
     try {
       return await this.questionRepository.find();
     } catch (error) {
-      throw new InternalServerErrorException(
-        'Erro ao listar todas as questões',
-      );
+      throw new InternalServerErrorException('Error finding questions', error);
+
     }
   }
 }

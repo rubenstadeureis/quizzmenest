@@ -17,6 +17,10 @@ export class QuizzEntity {
   @Column()
   quantityPlayed: number;
 
-  @OneToMany(() => QuestionEntity, (question) => question.question)
-  question: QuestionEntity[];
+  @OneToMany(() => QuestionEntity, (question) => question.quizz, {
+    eager: true,
+    cascade: true,
+  })
+  questions: QuestionEntity[];
+
 }

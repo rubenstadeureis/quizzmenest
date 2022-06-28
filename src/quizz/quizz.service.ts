@@ -57,4 +57,8 @@ export class QuizzService {
     }
     return await this.quizzRepository.updateQuizzById(update, id);
   }
+
+  async quizzExists(id: number): Promise<boolean> {
+    return this.quizzRepository.quizzExists(id);
+  }
 }
