@@ -25,16 +25,4 @@ export class OptionRepository {
       throw new InternalServerErrorException('Error creating the question!');
     }
   }
-  async optionExists(id: number): Promise<boolean> {
-    try {
-      const optionFoundedById = await this.optionRepository.count({
-        where: {
-          id,
-        },
-      });
-      return optionFoundedById > 0;
-    } catch (error) {
-      throw new InternalServerErrorException('Error checking Option Id');
-    }
-  }
 }

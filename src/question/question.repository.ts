@@ -31,7 +31,18 @@ export class QuestionRepository {
       return await this.questionRepository.find();
     } catch (error) {
       throw new InternalServerErrorException('Error finding questions', error);
-
+    }
+  }
+  async questionExists(id: number): Promise<boolean> {
+    try {
+      const questionFoundedById = await this.questionRepository.count({
+        where: {
+          id,
+        },
+      });
+      return questionFoundedById > 0;
+    } catch (error) {
+      throw new InternalServerErrorException('Error checking Option Id');
     }
   }
 }

@@ -11,7 +11,7 @@ export class OptionService {
     private questionService: QuestionService,
   ) {}
   async create(createOptionDto: CreateOptionDto) {
-    const optionExists = await this.optionRepository.optionExists(
+    const optionExists = await this.questionService.questionExists(
       createOptionDto.questionId,
     );
     if (!optionExists) {
