@@ -22,4 +22,5 @@ export class QuizzEntity {
     cascade: true,
   })
   questions: QuestionEntity[];
+
 }

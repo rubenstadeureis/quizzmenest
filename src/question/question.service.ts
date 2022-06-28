@@ -5,6 +5,7 @@ import { QuestionRepository } from './question.repository';
 
 @Injectable()
 export class QuestionService {
+
   constructor(
     private questionRepository: QuestionRepository,
     private quizzService: QuizzService,
@@ -22,5 +23,6 @@ export class QuestionService {
 
   listQuestions() {
     return this.questionRepository.listQuestions();
+
   }
 }
