@@ -11,7 +11,6 @@ export class CreateQuizzDto {
   @IsNumber()
   quantityPlayed: number;
 
-
   @ValidateNested({ always: true, each: true })
   @Type(() => QuestionsDto)
   questions?: QuestionsDto[];
@@ -20,5 +19,4 @@ export class CreateQuizzDto {
 class QuestionsDto {
   @IsString()
   question: string;
-
 }
