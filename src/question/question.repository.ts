@@ -31,7 +31,17 @@ export class QuestionRepository {
       return await this.questionRepository.find();
     } catch (error) {
       throw new InternalServerErrorException('Error finding questions', error);
-
+    }
+  }
+  async questionExist(id: number): Promise<QuestionEntity> {
+    try {
+      return await this.questionRepository.findOne({
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException('Error finding question by id');
     }
   }
 }

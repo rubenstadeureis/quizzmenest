@@ -48,12 +48,11 @@ export class UsersRepository {
   }
   async getUserById(id: number): Promise<UserEntity> {
     try {
-      const foundOneUserById = await this.userRepository.findOne({
+      return await this.userRepository.findOne({
         where: {
           id,
         },
       });
-      return foundOneUserById;
     } catch (error) {
       console.log(`Erro ao encontrar o usuário ${id}`, error);
       throw new InternalServerErrorException(

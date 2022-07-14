@@ -10,6 +10,7 @@ export class OptionRepository {
     @InjectRepository(OptionEntity)
     private optionRepository: Repository<OptionEntity>,
   ) {}
+
   async create(createOptionDto: CreateOptionDto) {
     try {
       const question = this.optionRepository.create({
@@ -25,16 +26,24 @@ export class OptionRepository {
       throw new InternalServerErrorException('Error creating the question!');
     }
   }
-  async optionExists(id: number): Promise<boolean> {
+
+  async listOptions(): Promise<OptionEntity[]> {
     try {
-      const optionFoundedById = await this.optionRepository.count({
+      return await this.optionRepository.find();
+    } catch (error) {
+      throw new InternalServerErrorException('Error finding options', error);
+    }
+  }
+
+  async getOptionsById(id: number): Promise<OptionEntity> {
+    try {
+      return await this.optionRepository.findOne({
         where: {
           id,
         },
       });
-      return optionFoundedById > 0;
     } catch (error) {
-      throw new InternalServerErrorException('Error checking Option Id');
+      throw new InternalServerErrorException('Error found option by id', error);
     }
   }
 }

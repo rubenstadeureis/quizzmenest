@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { QuizzService } from 'src/quizz/quizz.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
+import { QuestionEntity } from './entities/question.entity';
 import { QuestionRepository } from './question.repository';
 
 @Injectable()
 export class QuestionService {
-
   constructor(
     private questionRepository: QuestionRepository,
     private quizzService: QuizzService,
@@ -21,8 +21,11 @@ export class QuestionService {
     return this.questionRepository.create(createQuestionDto);
   }
 
-  listQuestions() {
-    return this.questionRepository.listQuestions();
+  async listQuestions(): Promise<QuestionEntity[]> {
+    return await this.questionRepository.listQuestions();
+  }
 
+  async questionExists(id: number): Promise<QuestionEntity> {
+    return await this.questionRepository.questionExist(id);
   }
 }
