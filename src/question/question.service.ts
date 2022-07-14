@@ -25,7 +25,7 @@ export class QuestionService {
     return await this.questionRepository.listQuestions();
   }
 
-  async questionExists(id: number): Promise<QuestionEntity> {
-    return await this.questionRepository.questionExist(id);
+  async getQuestionById(id: number): Promise<QuestionEntity> {
+    return await this.questionRepository.getQuestionById(id);
   }
 }

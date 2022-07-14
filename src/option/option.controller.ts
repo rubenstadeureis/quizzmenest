@@ -1,6 +1,7 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Patch } from '@nestjs/common';
 import { OptionService } from './option.service';
 import { CreateOptionDto } from './dto/create-option.dto';
+import { UpdateOptionDto } from './dto/update-option.dto';
 // import { UpdateOptionDto } from './dto/update-option.dto';
 
 @Controller('/option')
@@ -12,20 +13,20 @@ export class OptionController {
     return this.optionService.create(createOptionDto);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.optionService.findAll();
-  // }
+  @Get()
+  findAll() {
+    return this.optionService.listOptions();
+  }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.optionService.findOne(+id);
-  // }
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.optionService.findOne(+id);
+  }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateOptionDto: UpdateOptionDto) {
-  //   return this.optionService.update(+id, updateOptionDto);
-  // }
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateOptionDto: UpdateOptionDto) {
+    return this.optionService.update(+id, updateOptionDto);
+  }
 
   // @Delete(':id')
   // remove(@Param('id') id: string) {

@@ -2,6 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateOptionDto } from './dto/create-option.dto';
+import { UpdateOptionDto } from './dto/update-option.dto';
 import { OptionEntity } from './entities/option.entity';
 
 @Injectable()
@@ -44,6 +45,32 @@ export class OptionRepository {
       });
     } catch (error) {
       throw new InternalServerErrorException('Error found option by id', error);
+    }
+  }
+  async optionExists(id: number): Promise<boolean> {
+    try {
+      const idExists = await this.optionRepository.count({
+        where: {
+          id,
+        },
+      });
+      return idExists > 0;
+    } catch (error) {
+      throw new InternalServerErrorException('Error counting option');
+    }
+  }
+  async updateOptionById(
+    id: number,
+    update: UpdateOptionDto,
+  ): Promise<OptionEntity> {
+    try {
+      const idExists = await this.getOptionsById(id);
+      return this.optionRepository.save({
+        ...idExists,
+        ...update,
+      });
+    } catch (error) {
+      throw new InternalServerErrorException('Error finding option');
     }
   }
 }

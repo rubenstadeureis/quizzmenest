@@ -33,7 +33,7 @@ export class QuestionRepository {
       throw new InternalServerErrorException('Error finding questions', error);
     }
   }
-  async questionExist(id: number): Promise<QuestionEntity> {
+  async getQuestionById(id: number): Promise<QuestionEntity> {
     try {
       return await this.questionRepository.findOne({
         where: {
