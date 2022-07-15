@@ -1,5 +1,4 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { UpdateOptionDto } from 'src/option/dto/update-option.dto';
 import { QuizzService } from 'src/quizz/quizz.service';
 import { DeleteResult } from 'typeorm';
 import { CreateQuestionDto } from './dto/create-question.dto';

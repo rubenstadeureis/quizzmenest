@@ -31,12 +31,12 @@ export class OptionController {
     return this.optionService.findOne(id);
   }
 
-  @Patch(':id')
+  @Patch('update/:id')
   update(@Param('id') id: number, @Body() updateOptionDto: UpdateOptionDto) {
     return this.optionService.update(id, updateOptionDto);
   }
 
-  @Delete(':id')
+  @Delete('delete/:id')
   remove(@Param('id') id: number) {
     return this.optionService.remove(id);
   }

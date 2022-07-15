@@ -49,12 +49,12 @@ export class OptionRepository {
   }
   async optionExists(id: number): Promise<boolean> {
     try {
-      const idExists = await this.optionRepository.count({
+      const countOptionById = await this.optionRepository.count({
         where: {
           id,
         },
       });
-      return idExists > 0;
+      return countOptionById > 0;
     } catch (error) {
       throw new InternalServerErrorException('Error counting option');
     }

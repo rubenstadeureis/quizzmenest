@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { QuestionService } from 'src/question/question.service';
 import { DeleteResult } from 'typeorm';
 import { CreateOptionDto } from './dto/create-option.dto';

@@ -38,7 +38,7 @@ export class UsersService {
   }
 
   async updateUserById(id: number, update: UpdateUserDto): Promise<UserEntity> {
-    const findUser = await this.userRepository.userExists(id);
+    const findUser = await this.userRepository.getUserById(id);
     if (!findUser) {
       throw new BadRequestException('User not exist!');
     }
