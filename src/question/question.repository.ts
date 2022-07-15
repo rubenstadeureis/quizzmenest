@@ -20,17 +20,20 @@ export class QuestionRepository {
           id: createQuestionDto.quizzId,
         },
       });
-      await this.questionRepository.save(question);
-      return question;
+      return await this.questionRepository.save(question);
     } catch (error) {
       console.log('Error creating the question!', error);
       throw new InternalServerErrorException('Error creating the question!');
     }
   }
-  async listQuestions(): Promise<QuestionEntity[]> {
+  async listQuestions(): Promise<QuestionEntity[] | null> {
     try {
-      return await this.questionRepository.find();
+      return await this.questionRepository
+        .createQueryBuilder('question')
+        .leftJoinAndSelect('question.option', 'option')
+        .getMany();
     } catch (error) {
+      console.log(error);
       throw new InternalServerErrorException('Error finding questions', error);
     }
   }

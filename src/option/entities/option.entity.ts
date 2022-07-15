@@ -1,7 +1,13 @@
 import { QuestionEntity } from 'src/question/entities/question.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
-@Entity()
+@Entity('option_entity')
 export class OptionEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -13,5 +19,8 @@ export class OptionEntity {
   isCorrect: boolean;
 
   @ManyToOne(() => QuestionEntity, (question) => question.question)
+  @JoinColumn({
+    name: 'id',
+  })
   question: QuestionEntity;
 }
