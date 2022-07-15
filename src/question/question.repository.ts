@@ -34,6 +34,18 @@ export class QuestionRepository {
       throw new InternalServerErrorException('Error finding questions', error);
     }
   }
+  async questionExists(id: number): Promise<boolean> {
+    try {
+      const countIdQuestion = await this.questionRepository.count({
+        where: {
+          id,
+        },
+      });
+      return countIdQuestion > 0;
+    } catch (error) {
+      throw new InternalServerErrorException('Erro em contar os id');
+    }
+  }
   async getQuestionById(id: number): Promise<QuestionEntity> {
     try {
       return await this.questionRepository.findOne({

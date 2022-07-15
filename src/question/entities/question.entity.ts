@@ -23,5 +23,5 @@ export class QuestionEntity {
     cascade: true,
     onDelete: 'CASCADE',
   })
-  option: OptionEntity;
+  option: OptionEntity[];
 }

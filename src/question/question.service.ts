@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { QuizzService } from 'src/quizz/quizz.service';
 import { DeleteResult } from 'typeorm';
 import { CreateQuestionDto } from './dto/create-question.dto';
@@ -28,6 +32,10 @@ export class QuestionService {
   }
 
   async getQuestionById(id: number): Promise<QuestionEntity> {
+    const countIdQuestion = await this.questionRepository.questionExists(id);
+
+    if (!countIdQuestion) throw new BadRequestException('Id not exists');
+
     return await this.questionRepository.getQuestionById(id);
   }
   async updateQuestionById(
