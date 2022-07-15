@@ -4,6 +4,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { QuestionService } from 'src/question/question.service';
+import { DeleteResult } from 'typeorm';
 import { CreateOptionDto } from './dto/create-option.dto';
 import { UpdateOptionDto } from './dto/update-option.dto';
 import { OptionEntity } from './entities/option.entity';
@@ -31,18 +32,20 @@ export class OptionService {
   }
 
   async findOne(id: number): Promise<OptionEntity> {
-    const idExists = await this.optionRepository.optionExists(id);
+    const optionExist = await this.optionRepository.optionExists(id);
 
-    if (!idExists) throw new BadRequestException('Option not exists!');
+    if (!optionExist) throw new BadRequestException('Option not exists!');
 
     return this.optionRepository.getOptionsById(id);
   }
 
-  update(id: number, updateOptionDto: UpdateOptionDto) {
-    return this.optionRepository.updateOptionById(id, updateOptionDto);
+  async update(
+    id: number,
+    updateOptionDto: UpdateOptionDto,
+  ): Promise<OptionEntity> {
+    return await this.optionRepository.updateOptionById(id, updateOptionDto);
   }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} option`;
-  // }
+  async remove(id: number): Promise<DeleteResult> {
+    return await this.optionRepository.deleteOptionById(id);
+  }
 }

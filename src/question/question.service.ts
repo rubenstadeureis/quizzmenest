@@ -1,6 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { UpdateOptionDto } from 'src/option/dto/update-option.dto';
 import { QuizzService } from 'src/quizz/quizz.service';
+import { DeleteResult } from 'typeorm';
 import { CreateQuestionDto } from './dto/create-question.dto';
+import { UpdateQuestionDto } from './dto/update-question.dto';
 import { QuestionEntity } from './entities/question.entity';
 import { QuestionRepository } from './question.repository';
 
@@ -27,5 +30,14 @@ export class QuestionService {
 
   async getQuestionById(id: number): Promise<QuestionEntity> {
     return await this.questionRepository.getQuestionById(id);
+  }
+  async updateQuestionById(
+    id: number,
+    update: UpdateQuestionDto,
+  ): Promise<QuestionEntity> {
+    return await this.questionRepository.updateQuestionById(id, update);
+  }
+  async deleteQuestionById(id: number): Promise<DeleteResult> {
+    return await this.questionRepository.deleteQuestionById(id);
   }
 }

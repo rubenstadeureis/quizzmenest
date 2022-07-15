@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CreateOptionDto } from './dto/create-option.dto';
 import { UpdateOptionDto } from './dto/update-option.dto';
 import { OptionEntity } from './entities/option.entity';
@@ -65,12 +65,19 @@ export class OptionRepository {
   ): Promise<OptionEntity> {
     try {
       const idExists = await this.getOptionsById(id);
-      return this.optionRepository.save({
+      return await this.optionRepository.save({
         ...idExists,
         ...update,
       });
     } catch (error) {
       throw new InternalServerErrorException('Error finding option');
+    }
+  }
+  async deleteOptionById(id: number): Promise<DeleteResult> {
+    try {
+      return await this.optionRepository.delete(id);
+    } catch (error) {
+      throw new InternalServerErrorException('Error deleting option');
     }
   }
 }

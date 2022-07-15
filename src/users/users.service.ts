@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { DeleteResult } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
@@ -28,7 +29,7 @@ export class UsersService {
     return this.userRepository.listUsers();
   }
 
-  async deleteUserById(id: number): Promise<boolean> {
+  async deleteUserById(id: number): Promise<DeleteResult> {
     const UserNotFound = this.userRepository.deleteUserById(id);
     if (!UserNotFound) {
       throw new BadRequestException('User not exist!');

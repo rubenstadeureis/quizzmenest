@@ -8,12 +8,10 @@ import {
   OneToMany,
 } from 'typeorm';
 
-
-@Entity()
+@Entity('question_entity')
 export class QuestionEntity {
   @PrimaryGeneratedColumn()
-
-  id?: number;
+  id: number;
 
   @Column()
   question: string;
@@ -21,7 +19,9 @@ export class QuestionEntity {
   @ManyToOne(() => QuizzEntity, (quizz) => quizz.questions)
   quizz: QuizzEntity;
 
-
-  @OneToMany(() => OptionEntity, (option) => option.option)
+  @OneToMany(() => OptionEntity, (option) => option.option, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   option: OptionEntity;
 }
