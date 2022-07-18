@@ -6,10 +6,9 @@ import {
   Column,
   ManyToOne,
   OneToMany,
-  JoinColumn,
 } from 'typeorm';
 
-@Entity('question_entity')
+@Entity()
 export class QuestionEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -20,11 +19,9 @@ export class QuestionEntity {
   @ManyToOne(() => QuizzEntity, (quizz) => quizz.questions)
   quizz: QuizzEntity;
 
-  @OneToMany(() => OptionEntity, (option) => option.option, {
-    eager: true,
+  @OneToMany(() => OptionEntity, (option) => option.question, {
     cascade: true,
     onDelete: 'CASCADE',
   })
-  @JoinColumn()
   option: OptionEntity[];
 }

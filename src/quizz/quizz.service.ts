@@ -32,7 +32,7 @@ export class QuizzService {
   }
 
   async deleteQuizzById(id: number): Promise<DeleteResult> {
-    const quizzExists = this.quizzRepository.quizzExists(id);
+    const quizzExists = this.quizzRepository.deleteQuizzById(id);
     if (!quizzExists) {
       throw new BadRequestException('Quizz not exist!');
     }

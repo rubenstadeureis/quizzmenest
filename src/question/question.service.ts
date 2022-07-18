@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   InternalServerErrorException,
 } from '@nestjs/common';
 import { QuizzService } from 'src/quizz/quizz.service';

@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity('option_entity')
+@Entity()
 export class OptionEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -18,9 +18,6 @@ export class OptionEntity {
   @Column()
   isCorrect: boolean;
 
-  @ManyToOne(() => QuestionEntity, (question) => question.question)
-  @JoinColumn({
-    name: 'id',
-  })
+  @ManyToOne(() => QuestionEntity, (question) => question.option)
   question: QuestionEntity;
 }

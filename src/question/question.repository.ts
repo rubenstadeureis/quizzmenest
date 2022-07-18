@@ -30,7 +30,7 @@ export class QuestionRepository {
     try {
       return await this.questionRepository
         .createQueryBuilder('question')
-        .leftJoinAndSelect('question.option', 'option')
+        .innerJoinAndSelect('question.option', 'option')
         .getMany();
     } catch (error) {
       console.log(error);
