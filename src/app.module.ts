@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { QuizzModule } from './quizz/quizz.module';
 import { QuestionModule } from './question/question.module';
 import { OptionModule } from './option/option.module';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     UsersModule,
@@ -16,6 +17,7 @@ import { OptionModule } from './option/option.module';
     QuizzModule,
     QuestionModule,
     OptionModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
