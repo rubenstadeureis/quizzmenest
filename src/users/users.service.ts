@@ -18,11 +18,11 @@ export class UsersService {
   }
 
   async getUserbyId(id: number): Promise<UserEntity> {
-    const UserNotFound = await this.userRepository.getUserById(id);
-    if (!UserNotFound) {
+    const userById = await this.userRepository.getUserById(id);
+    if (!userById) {
       throw new BadRequestException('User not exist!');
     }
-    return UserNotFound;
+    return userById;
   }
   // TO-DO: Refact using TypeOrm.
   async listUsers() {
@@ -30,11 +30,11 @@ export class UsersService {
   }
 
   async deleteUserById(id: number): Promise<DeleteResult> {
-    const UserNotFound = this.userRepository.deleteUserById(id);
-    if (!UserNotFound) {
+    const userDeleteById = this.userRepository.deleteUserById(id);
+    if (!userDeleteById) {
       throw new BadRequestException('User not exist!');
     }
-    return UserNotFound;
+    return userDeleteById;
   }
 
   async updateUserById(id: number, update: UpdateUserDto): Promise<UserEntity> {
