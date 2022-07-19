@@ -20,6 +20,7 @@ export class QuestionController {
     return this.questionService.create(createQuestionDto);
   }
   @Get()
+
   getAllQuestions() {
     return this.questionService.listQuestions();
   }
@@ -35,4 +36,6 @@ export class QuestionController {
   deleteQuestion(@Param('id') id: number) {
     return this.questionService.deleteQuestionById(id);
   }
+
+
 }

@@ -11,7 +11,9 @@ import {
 @Entity()
 export class QuestionEntity {
   @PrimaryGeneratedColumn()
+
   id: number;
+
 
   @Column()
   question: string;
@@ -19,10 +21,12 @@ export class QuestionEntity {
   @ManyToOne(() => QuizzEntity, (quizz) => quizz.questions)
   quizz: QuizzEntity;
 
+
   @OneToMany(() => OptionEntity, (option) => option.question, {
     eager: true,
     cascade: true,
     onDelete: 'CASCADE',
   })
+
   option: OptionEntity[];
 }

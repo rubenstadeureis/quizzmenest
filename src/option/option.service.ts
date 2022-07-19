@@ -16,11 +16,15 @@ export class OptionService {
 
   async create(createOptionDto: CreateOptionDto): Promise<OptionEntity> {
     const optionExists = await this.questionService.getQuestionById(
+
       createOptionDto.questionId,
     );
     if (!optionExists) throw new BadRequestException('Option not exist!');
 
     return await this.optionRepository.create(createOptionDto);
+  }
+  async listOption() {
+    return this.optionRepository.listOptions();
   }
 
   async listOptions(): Promise<OptionEntity[]> {

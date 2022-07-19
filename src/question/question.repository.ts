@@ -39,11 +39,14 @@ export class QuestionRepository {
   }
   async questionExists(id: number): Promise<boolean> {
     try {
+
       const countIdQuestion = await this.questionRepository.count({
+
         where: {
           id,
         },
       });
+
       return countIdQuestion > 0;
     } catch (error) {
       throw new InternalServerErrorException('Erro em contar os id');
@@ -82,6 +85,7 @@ export class QuestionRepository {
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Error deleting');
+
     }
   }
 }
