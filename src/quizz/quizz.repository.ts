@@ -39,7 +39,11 @@ export class QuizzRepository {
 
   async listQuizz(): Promise<QuizzEntity[]> {
     try {
-      return await this.quizzRepository.find();
+      return await this.quizzRepository
+        .createQueryBuilder('quizz')
+        .leftJoinAndSelect('quizz.questions', 'question')
+        .leftJoinAndSelect('question.option', 'option')
+        .getMany();
     } catch (error) {
       throw new InternalServerErrorException('Erro ao buscar quizzes', error);
     }

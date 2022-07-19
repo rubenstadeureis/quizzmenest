@@ -20,6 +20,7 @@ export class QuestionEntity {
   quizz: QuizzEntity;
 
   @OneToMany(() => OptionEntity, (option) => option.question, {
+    eager: true,
     cascade: true,
     onDelete: 'CASCADE',
   })
