@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Not, Repository } from 'typeorm';
+import { DeleteResult, Not, Repository } from 'typeorm';
 import { CreateQuizzDto } from './dto/create-quizz.dto';
 import { UpdateQuizzDto } from './dto/update-quizz.dto';
 import { QuizzEntity } from './entities/quizz.entity';
@@ -39,7 +39,11 @@ export class QuizzRepository {
 
   async listQuizz(): Promise<QuizzEntity[]> {
     try {
-      return await this.quizzRepository.find();
+      return await this.quizzRepository
+        .createQueryBuilder('quizz')
+        .leftJoinAndSelect('quizz.questions', 'question')
+        .leftJoinAndSelect('question.option', 'option')
+        .getMany();
     } catch (error) {
       throw new InternalServerErrorException('Erro ao buscar quizzes', error);
     }
@@ -72,9 +76,9 @@ export class QuizzRepository {
     }
   }
 
-  async deleteQuizzById(id: number): Promise<boolean> {
+  async deleteQuizzById(id: number): Promise<DeleteResult> {
     try {
-      return !!(await this.quizzRepository.delete(id));
+      return await this.quizzRepository.delete(id);
     } catch (error) {
       throw new InternalServerErrorException('Erro ao deletar quizz');
     }

@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { DeleteResult } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
@@ -17,27 +18,27 @@ export class UsersService {
   }
 
   async getUserbyId(id: number): Promise<UserEntity> {
-    const UserNotFound = await this.userRepository.getUserById(id);
-    if (!UserNotFound) {
+    const userById = await this.userRepository.getUserById(id);
+    if (!userById) {
       throw new BadRequestException('User not exist!');
     }
-    return UserNotFound;
+    return userById;
   }
   // TO-DO: Refact using TypeOrm.
   async listUsers() {
     return this.userRepository.listUsers();
   }
 
-  async deleteUserById(id: number): Promise<boolean> {
-    const UserNotFound = this.userRepository.deleteUserById(id);
-    if (!UserNotFound) {
+  async deleteUserById(id: number): Promise<DeleteResult> {
+    const userDeleteById = this.userRepository.deleteUserById(id);
+    if (!userDeleteById) {
       throw new BadRequestException('User not exist!');
     }
-    return UserNotFound;
+    return userDeleteById;
   }
 
   async updateUserById(id: number, update: UpdateUserDto): Promise<UserEntity> {
-    const findUser = await this.userRepository.userExists(id);
+    const findUser = await this.userRepository.getUserById(id);
     if (!findUser) {
       throw new BadRequestException('User not exist!');
     }

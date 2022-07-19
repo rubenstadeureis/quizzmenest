@@ -14,9 +14,17 @@ export class CreateQuizzDto {
   @ValidateNested({ always: true, each: true })
   @Type(() => QuestionsDto)
   questions?: QuestionsDto[];
+
+  @ValidateNested({ always: true, each: true })
+  @Type(() => OptionsDto)
+  options?: OptionsDto[];
 }
 
 class QuestionsDto {
   @IsString()
   question: string;
+}
+class OptionsDto {
+  @IsString()
+  option: string;
 }

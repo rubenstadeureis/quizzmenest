@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
@@ -43,17 +43,16 @@ export class UsersRepository {
     try {
       return await this.userRepository.find();
     } catch (error) {
-      throw new InternalServerErrorException('Erro na busca', error);
+      throw new InternalServerErrorException('Erro na busca');
     }
   }
   async getUserById(id: number): Promise<UserEntity> {
     try {
-      const foundOneUserById = await this.userRepository.findOne({
+      return await this.userRepository.findOne({
         where: {
           id,
         },
       });
-      return foundOneUserById;
     } catch (error) {
       console.log(`Erro ao encontrar o usuário ${id}`, error);
       throw new InternalServerErrorException(
@@ -74,15 +73,15 @@ export class UsersRepository {
       throw new InternalServerErrorException('Erro ao verificar usuário');
     }
   }
-  async deleteUserById(id: number): Promise<boolean> {
+  async deleteUserById(id: number): Promise<DeleteResult> {
     try {
-      return !!(await this.userRepository.delete(id));
+      return await this.userRepository.delete({ id });
     } catch (error) {
-      console.log('Erro ao achar o usuário e deletar', error);
+      console.log('Erro ao deletar o usuário', error);
       throw new InternalServerErrorException('Erro no servidor');
     }
   }
-  async updateUserById(update: UpdateUserDto, id: number) {
+  async updateUserById(update: UpdateUserDto, id: number): Promise<UserEntity> {
     try {
       const foundedOneUserById = await this.userRepository.findOne({
         where: {

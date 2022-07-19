@@ -11,7 +11,7 @@ const config: TypeOrmModuleOptions[] = [
     synchronize: true,
     autoLoadEntities: true,
     logging: false,
-    entities: [__dirname + '/src/**/*.entity.{js,ts}'],
+    entities: [__dirname + '/src/**/**.entity.{js,ts}'],
     migrationsTableName: 'custom_migration_table',
     migrations: [__dirname + '/src/infra/typeorm/migrations/*.ts'],
     timezone: '+03:00',

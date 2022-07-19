@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { DeleteResult } from 'typeorm';
 import { CreateQuizzDto } from './dto/create-quizz.dto';
 import { UpdateQuizzDto } from './dto/update-quizz.dto';
 import { QuizzEntity } from './entities/quizz.entity';
@@ -30,8 +31,8 @@ export class QuizzService {
     return this.quizzRepository.listQuizz();
   }
 
-  async deleteQuizzById(id: number): Promise<boolean> {
-    const quizzExists = this.quizzRepository.quizzExists(id);
+  async deleteQuizzById(id: number): Promise<DeleteResult> {
+    const quizzExists = this.quizzRepository.deleteQuizzById(id);
     if (!quizzExists) {
       throw new BadRequestException('Quizz not exist!');
     }

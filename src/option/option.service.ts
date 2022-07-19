@@ -1,6 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { QuestionService } from 'src/question/question.service';
+import { DeleteResult } from 'typeorm';
 import { CreateOptionDto } from './dto/create-option.dto';
+import { UpdateOptionDto } from './dto/update-option.dto';
+import { OptionEntity } from './entities/option.entity';
 // import { UpdateOptionDto } from './dto/update-option.dto';
 import { OptionRepository } from './option.repository';
 
@@ -10,32 +13,39 @@ export class OptionService {
     private optionRepository: OptionRepository,
     private questionService: QuestionService,
   ) {}
-  async create(createOptionDto: CreateOptionDto) {
-    const optionExists = await this.questionService.questionExists(
+
+  async create(createOptionDto: CreateOptionDto): Promise<OptionEntity> {
+    const optionExists = await this.questionService.getQuestionById(
+
       createOptionDto.questionId,
     );
-    if (!optionExists) {
-      throw new BadRequestException('Option not exist!');
-    }
-    return this.optionRepository.create(createOptionDto);
+    if (!optionExists) throw new BadRequestException('Option not exist!');
+
+    return await this.optionRepository.create(createOptionDto);
   }
   async listOption() {
     return this.optionRepository.listOptions();
   }
 
-  // findAll() {
-  //   return `This action returns all option`;
-  // }
+  async listOptions(): Promise<OptionEntity[]> {
+    return await this.optionRepository.listOptions();
+  }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} option`;
-  // }
+  async findOne(id: number): Promise<OptionEntity> {
+    const optionExist = await this.optionRepository.optionExists(id);
 
-  // update(id: number, updateOptionDto: UpdateOptionDto) {
-  //   return `This action updates a #${id} option`;
-  // }
+    if (!optionExist) throw new BadRequestException('Option not exists!');
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} option`;
-  // }
+    return this.optionRepository.getOptionsById(id);
+  }
+
+  async update(
+    id: number,
+    updateOptionDto: UpdateOptionDto,
+  ): Promise<OptionEntity> {
+    return await this.optionRepository.updateOptionById(id, updateOptionDto);
+  }
+  async remove(id: number): Promise<DeleteResult> {
+    return await this.optionRepository.deleteOptionById(id);
+  }
 }
