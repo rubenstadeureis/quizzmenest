@@ -47,5 +47,6 @@ export class QuestionService {
   }
   async deleteQuestionById(id: number): Promise<DeleteResult> {
     return await this.questionRepository.deleteQuestionById(id);
+
   }
 }

@@ -1,3 +1,4 @@
+
 import {
   Controller,
   Post,
@@ -7,6 +8,7 @@ import {
   Patch,
   Delete,
 } from '@nestjs/common';
+
 import { OptionService } from './option.service';
 import { CreateOptionDto } from './dto/create-option.dto';
 import { UpdateOptionDto } from './dto/update-option.dto';
@@ -22,8 +24,10 @@ export class OptionController {
   }
 
   @Get()
+
   findAll() {
     return this.optionService.listOptions();
+
   }
 
   @Get(':id')

@@ -78,6 +78,7 @@ export class OptionRepository {
       return await this.optionRepository.delete(id);
     } catch (error) {
       throw new InternalServerErrorException('Error deleting option');
+
     }
   }
 }
