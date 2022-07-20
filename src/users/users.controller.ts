@@ -7,7 +7,6 @@ import {
   Patch,
   Delete,
   UseGuards,
-  Request,
 } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -22,12 +21,6 @@ export class UsersController {
     private readonly usersService: UsersService,
     private authService: AuthService,
   ) {}
-
-  @UseGuards(JwtAuthGuard)
-  @Post('/auth/login')
-  async login(@Request() req) {
-    return this.authService.login(req.user);
-  }
 
   @Post('/create')
   createUsers(@Body() createUserDto: CreateUserDto) {

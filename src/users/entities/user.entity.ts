@@ -6,14 +6,18 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+
 @Entity()
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
   @Column()
   name: string;
+
   @Column()
   email: string;
+
   @Column()
   password: string;
 
