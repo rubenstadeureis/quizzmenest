@@ -19,7 +19,7 @@ export class UsersService {
     return this.userRepository.create(createUserDto);
   }
 
-  async getUserbyId(id: number): Promise<UserEntity> {
+  async getUserById(id: number): Promise<UserEntity> {
     const UserNotFound = await this.userRepository.getUserById(id);
     if (!UserNotFound) {
       throw new BadRequestException('Usuárior não existe!');

@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
@@ -25,7 +24,7 @@ export class UsersController {
   ) {}
 
   @UseGuards(JwtAuthGuard)
-  @Post('auth/login')
+  @Post('/auth/login')
   async login(@Request() req) {
     return this.authService.login(req.user);
   }
@@ -35,20 +34,25 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/')
   findAllUsers() {
     return this.usersService.listUsers();
   }
+
+  @UseGuards(JwtAuthGuard)
   @Get('/:id')
   getOnebyId(@Param('id') id: number) {
-    return this.usersService.getUserbyId(id);
+    return this.usersService.getUserById(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch('/update/:id')
   updateUserById(@Param('id') id: number, @Body() update: UpdateUserDto) {
     return this.usersService.updateUserById(id, update);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/delete/:id')
   deleteUserById(@Param('id') id: number) {
     return this.usersService.deleteUserById(id);
